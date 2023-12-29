@@ -11,6 +11,7 @@ namespace CobaltCoreArchipelago
                 g.tooltips.AddText(box.rect.xy + new Vec(15.0, 15.0), "Archipelago");
             }
             Draw.Sprite((Spr)CCArchiSprites.ArchiIcon!.Id!, rect.x, rect.y);
+            Draw.Text(CCArchiData.UnredeemedItemIds.Count.ToString(), rect.x + 10, rect.y + 10, color: Colors.white);
             g.Pop();
         }
 

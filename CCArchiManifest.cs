@@ -38,7 +38,7 @@ namespace CobaltCoreArchipelago
             CCArchiSprites.ArchiIcon = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ButtonMap", new FileInfo(path));
             if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIcon /*, (int) Spr.buttons_deck*/)) {
                 throw new Exception("Cannot register sprite.");
-            }   
+            }
         }
     }
 }
