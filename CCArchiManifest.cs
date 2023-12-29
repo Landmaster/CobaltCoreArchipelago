@@ -1,4 +1,6 @@
-﻿using CobaltCoreModding.Definitions;
+﻿using Archipelago.MultiClient.Net;
+using Archipelago.MultiClient.Net.Enums;
+using CobaltCoreModding.Definitions;
 using CobaltCoreModding.Definitions.ExternalItems;
 using CobaltCoreModding.Definitions.ModContactPoints;
 using CobaltCoreModding.Definitions.ModManifests;
@@ -27,6 +29,9 @@ namespace CobaltCoreArchipelago
             var cornersField = typeof(G).GetField("corners", BindingFlags.Static | BindingFlags.NonPublic);
             var cornersFieldVal = cornersField!.GetValue(null) as HashSet<UK>;
             cornersFieldVal!.Add(ArchiUKs.ArchiButton);
+
+            CCArchiData.Session = ArchipelagoSessionFactory.CreateSession("localhost:38281");
+            CCArchiData.Session.TryConnectAndLogin("Cobalt Core", "Crab", ItemsHandlingFlags.AllItems);
         }
 
         public void LoadManifest(ISpriteRegistry artRegistry)
