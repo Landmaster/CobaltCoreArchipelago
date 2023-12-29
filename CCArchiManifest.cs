@@ -26,7 +26,7 @@ namespace CobaltCoreArchipelago
 
             var cornersField = typeof(G).GetField("corners", BindingFlags.Static | BindingFlags.NonPublic);
             var cornersFieldVal = cornersField!.GetValue(null) as HashSet<UK>;
-            cornersFieldVal!.Add((UK)49201);
+            cornersFieldVal!.Add(ArchiUKs.ArchiButton);
         }
 
         public void LoadManifest(ISpriteRegistry artRegistry)
@@ -42,7 +42,7 @@ namespace CobaltCoreArchipelago
         }
     }
 
-    class MouseDownHandler : global::OnMouseDown {
+    class MouseDownHandler : OnMouseDown {
 
         public void OnMouseDown(G g, Box b)
         {
@@ -53,7 +53,7 @@ namespace CobaltCoreArchipelago
     class CornerMenuPatch {
         static void Postfix(G g, State s) {
             var rect = new Rect(1, 20, 15, 15);
-            var box = g.Push(key: (UK)49201, rect: rect, onMouseDown: new MouseDownHandler());
+            var box = g.Push(key: ArchiUKs.ArchiButton, rect: rect, onMouseDown: new MouseDownHandler());
             if (box.IsHover()) {
                 g.tooltips.AddText(box.rect.xy + new Vec(15.0, 15.0), "Archipelago");
             }
