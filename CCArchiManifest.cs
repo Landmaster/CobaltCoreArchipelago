@@ -18,11 +18,14 @@ namespace CobaltCoreArchipelago
         public ILogger? Logger { get; set; }
         public DirectoryInfo? ModRootFolder { get; set; }
 
+        public static CCArchiManifest? Instance { get; private set; }
+
         public string Name => "Landmaster.CobaltCoreArchipelago.MainManifest";
 
         public void BootMod(IModLoaderContact contact)
         {
-            //Logger?.LogWarning("Ow! But my face, though!");
+            Instance = this;
+
             var harmony = new Harmony("Landmaster.CobaltCoreArchipelago.Patch");
             harmony.PatchAll();
 
@@ -31,7 +34,21 @@ namespace CobaltCoreArchipelago
             cornersFieldVal!.Add(ArchiUKs.ArchiButton);
 
             CCArchiData.Session = ArchipelagoSessionFactory.CreateSession("localhost:38281");
-            CCArchiData.Session.TryConnectAndLogin("Cobalt Core", "Crab", ItemsHandlingFlags.AllItems);
+            var loginResult = CCArchiData.Session.TryConnectAndLogin("Cobalt Core", "Crab", ItemsHandlingFlags.AllItems);
+
+            if (!loginResult.Successful)
+            {
+                var loginFailure = (LoginFailure)loginResult;
+                var errorMessage = "Failed to connect to Archipelago server:\n";
+                foreach (var error in loginFailure.Errors)
+                {
+                    errorMessage += error + "\n";
+                }
+                throw new Exception(errorMessage);
+            }
+
+            var loginSuccess = (LoginSuccessful)loginResult;
+            CCArchiData.SlotData = loginSuccess.SlotData;
         }
 
         public void LoadManifest(ISpriteRegistry artRegistry)
