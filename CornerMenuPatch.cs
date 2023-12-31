@@ -12,7 +12,7 @@ namespace CobaltCoreArchipelago
             }
             Draw.Sprite((Spr)CCArchiSprites.ArchiIcon!.Id!, rect.x, rect.y);
             Draw.Text(
-                (CCArchiData.Session!.Items.AllItemsReceived.Count - CCArchiData.RedeemedItemIds.Count).ToString(),
+                (CCArchiData.Session!.Items.AllItemsReceived.Count - CCArchiData.Instance.RedeemedItemIds.Count).ToString(),
                 rect.x + 10, rect.y + 10, color: Colors.white
             );
             g.Pop();
