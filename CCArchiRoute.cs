@@ -23,6 +23,14 @@
             }
             g.Pop();
 
+            g.Push(rect: new Rect(360 - width / 2.0, 50));
+            var newWidth = 150;
+            SharedArt.MenuItem(g, new Vec(0, 0), newWidth, false, ArchiUKs.RareCardReward1UK, "Rare Card Draw 1");
+            SharedArt.MenuItem(g, new Vec(0, 21), newWidth, false, ArchiUKs.BossArtifact1UK, "Boss Artifact 1");
+            SharedArt.MenuItem(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2");
+            SharedArt.MenuItem(g, new Vec(0, 63), newWidth, false, ArchiUKs.BossArtifact2UK, "Boss Artifact 2");
+            g.Pop();
+
             // TODO add more stuff
         }
     }
