@@ -56,9 +56,17 @@ namespace CobaltCoreArchipelago
             if (ModRootFolder == null) {
                 throw new Exception("No root folder set!");
             }
+
             var path = Path.Combine(ModRootFolder.FullName, Path.GetFileName("archi_icon_cobaltcore.png"));
-            CCArchiSprites.ArchiIcon = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ButtonMap", new FileInfo(path));
-            if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIcon /*, (int) Spr.buttons_deck*/)) {
+            CCArchiSprites.ArchiIcon = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIcon", new FileInfo(path));
+            if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIcon)) {
+                throw new Exception("Cannot register sprite.");
+            }
+
+            path = Path.Combine(ModRootFolder.FullName, Path.GetFileName("archi_icon_large_cobaltcore.png"));
+            CCArchiSprites.ArchiIconLarge = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIconLarge", new FileInfo(path));
+            if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIconLarge))
+            {
                 throw new Exception("Cannot register sprite.");
             }
         }
