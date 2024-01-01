@@ -21,7 +21,11 @@ namespace CobaltCoreArchipelago
                         typeof(AArchiOffering).GetConstructor(Array.Empty<Type>())
                     );
                 }
-                else { 
+                else if (instruction.StoresField(typeof(ACardOffering).GetField("battleType"))) {
+                    yield return new CodeInstruction(OpCodes.Stfld, typeof(AArchiOffering).GetField("BattleType"));
+                }
+                else
+                {
                     yield return instruction;
                 }
             }

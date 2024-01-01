@@ -30,5 +30,11 @@ namespace CobaltCoreArchipelago
 
         [JsonProperty]
         public int CardDrawCount { get; set; } = 0;
+
+        [JsonProperty]
+        public int BossCount { get; set; } = 0;
+
+        [JsonProperty]
+        public int ArtifactCount { get; set; } = 0;
     }
 }
