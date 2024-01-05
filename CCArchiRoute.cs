@@ -44,7 +44,7 @@ namespace CobaltCoreArchipelago
 
             g.Push(rect: new Rect(120 - width / 2.0, 50));
             for (int i = 0; i < numCardDraws; ++i) {
-                SharedArt.MenuItem(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.CardRewardUK(i), "Card Draw " + (i + 1), new OnCardDrawClick() {
+                MenuItemIfUnredeemed(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.CardRewardUK(i), "Card Draw " + (i + 1), new OnCardDrawClick() {
                     Idx = i,
                     ParentRoute = this
                 });
@@ -54,16 +54,16 @@ namespace CobaltCoreArchipelago
             g.Push(rect: new Rect(240 - width / 2.0, 50));
             for (int i = 0; i < numArtifacts; ++i)
             {
-                SharedArt.MenuItem(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.ArtifactUK(i), "Artifact " + (i + 1));
+                MenuItemIfUnredeemed(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.ArtifactUK(i), "Artifact " + (i + 1));
             }
             g.Pop();
 
             g.Push(rect: new Rect(360 - width / 2.0, 50));
             var newWidth = 150;
-            if (numRareCardDraws >= 1) SharedArt.MenuItem(g, new Vec(0, 0), newWidth, false, ArchiUKs.RareCardReward1UK, "Rare Card Draw 1");
-            if (numBossArtifacts >= 1) SharedArt.MenuItem(g, new Vec(0, 21), newWidth, false, ArchiUKs.BossArtifact1UK, "Boss Artifact 1");
-            if (numRareCardDraws >= 2) SharedArt.MenuItem(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2");
-            if (numBossArtifacts >= 2) SharedArt.MenuItem(g, new Vec(0, 63), newWidth, false, ArchiUKs.BossArtifact2UK, "Boss Artifact 2");
+            if (numRareCardDraws >= 1) MenuItemIfUnredeemed(g, new Vec(0, 0), newWidth, false, ArchiUKs.RareCardReward1UK, "Rare Card Draw 1");
+            if (numBossArtifacts >= 1) MenuItemIfUnredeemed(g, new Vec(0, 21), newWidth, false, ArchiUKs.BossArtifact1UK, "Boss Artifact 1");
+            if (numRareCardDraws >= 2) MenuItemIfUnredeemed(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2");
+            if (numBossArtifacts >= 2) MenuItemIfUnredeemed(g, new Vec(0, 63), newWidth, false, ArchiUKs.BossArtifact2UK, "Boss Artifact 2");
             g.Pop();
 
             // TODO add more stuff
@@ -78,6 +78,12 @@ namespace CobaltCoreArchipelago
             return SubRoute?.TryCloseSubRoute(g, r, arg) ?? false;
         }
 
+        private static void MenuItemIfUnredeemed(G g, Vec v, int width, bool isBig, UIKey key, string name, OnMouseDown? onMouseDown = null) {
+            if (!CCArchiData.Instance.RedeemedItemIds.Contains(key.k)) { 
+                SharedArt.MenuItem(g, v, width, isBig, key, name, onMouseDown);
+            }
+        }
+
         private class OnCardDrawClick : OnMouseDown
         {
             public int Idx;
@@ -85,16 +91,9 @@ namespace CobaltCoreArchipelago
 
             public void OnMouseDown(G g, Box b)
             {
-                ParentRoute!.SubRoute = new CardReward() {
+                ParentRoute!.SubRoute = new ArchiCardReward() {
                     cards = CCArchiData.Instance.ArchiCardChoices[Idx]
                 };
-                CardRewardPatch.OnTakeCard += OnTakeCard;
-            }
-
-            private void OnTakeCard(object? sender, CardReward e)
-            {
-                CardRewardPatch.OnTakeCard -= OnTakeCard;
-                CCArchiManifest.Instance!.Logger!.LogInformation("bruhA"); // TODO remove when done
             }
         }
     }
