@@ -9,9 +9,13 @@ namespace CobaltCoreArchipelago
     {
         [HarmonyPatch(nameof(State.PopulateRun))]
         [HarmonyPostfix]
-        public static void PopulateRunPostfix()
+        public static void PopulateRunPostfix(State __instance)
         {
             CCArchiData.Instance.CardDrawCount = 0;
+
+            for (int i = 0; i < 10; ++i) {
+                CCArchiData.Instance.ArchiCardChoices.Add(CardReward.GetOffering(__instance, count: 3));
+            }
         }
 
         [HarmonyPatch(nameof(State.Save))]

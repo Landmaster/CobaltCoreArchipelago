@@ -26,7 +26,7 @@ namespace CobaltCoreArchipelago
         }
 
         [JsonProperty]
-        public readonly HashSet<long> RedeemedItemIds = new();
+        public readonly HashSet<UK> RedeemedItemIds = new();
 
         [JsonProperty]
         public int CardDrawCount { get; set; } = 0;
@@ -36,5 +36,8 @@ namespace CobaltCoreArchipelago
 
         [JsonProperty]
         public int ArtifactCount { get; set; } = 0;
+
+        [JsonProperty]
+        public readonly List<List<Card>> ArchiCardChoices = new();
     }
 }

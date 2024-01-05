@@ -1,9 +1,19 @@
-﻿namespace CobaltCoreArchipelago
+﻿using Microsoft.Extensions.Logging;
+
+namespace CobaltCoreArchipelago
 {
     public class CCArchiRoute : Route
     {
+        private Route? SubRoute;
+
         public override void Render(G g)
         {
+            if (SubRoute != null)
+            {
+                SubRoute.Render(g);
+                return;
+            }
+
             int numCardDraws = 0;
             int numRareCardDraws = 0;
             int numArtifacts = 0;
@@ -34,7 +44,10 @@
 
             g.Push(rect: new Rect(120 - width / 2.0, 50));
             for (int i = 0; i < numCardDraws; ++i) {
-                SharedArt.MenuItem(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.CardRewardUK(i), "Card Draw " + (i+1));
+                SharedArt.MenuItem(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.CardRewardUK(i), "Card Draw " + (i + 1), new OnCardDrawClick() {
+                    Idx = i,
+                    ParentRoute = this
+                });
             }
             g.Pop();
 
@@ -54,6 +67,35 @@
             g.Pop();
 
             // TODO add more stuff
+        }
+
+        public override bool TryCloseSubRoute(G g, Route r, object? arg)
+        {
+            if (r == SubRoute) {
+                SubRoute = null;
+                return true;
+            }
+            return SubRoute?.TryCloseSubRoute(g, r, arg) ?? false;
+        }
+
+        private class OnCardDrawClick : OnMouseDown
+        {
+            public int Idx;
+            public CCArchiRoute? ParentRoute;
+
+            public void OnMouseDown(G g, Box b)
+            {
+                ParentRoute!.SubRoute = new CardReward() {
+                    cards = CCArchiData.Instance.ArchiCardChoices[Idx]
+                };
+                CardRewardPatch.OnTakeCard += OnTakeCard;
+            }
+
+            private void OnTakeCard(object? sender, CardReward e)
+            {
+                CardRewardPatch.OnTakeCard -= OnTakeCard;
+                CCArchiManifest.Instance!.Logger!.LogInformation("bruhA"); // TODO remove when done
+            }
         }
     }
 }
