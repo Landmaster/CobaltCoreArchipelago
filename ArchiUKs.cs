@@ -3,6 +3,7 @@
     public class ArchiUKs
     {
         public const UK ArchiButton = (UK)49201;
+        public const UK ArchiRewardButton = (UK)49202;
 
         public static UK CardRewardUK(int index) { 
             return (UK)(70600 + index);
@@ -27,7 +28,7 @@
             // Artifact Reward
             else if (70700 <= ukAsInt && ukAsInt < 70800)
             {
-                return 187001 + (ukAsInt - 70600);
+                return 187001 + (ukAsInt - 70700);
             }
             else {
                 return ukAsInt switch
@@ -39,6 +40,12 @@
                     _ => -1
                 }; 
             }
+        }
+
+        public static IEnumerable<UK> AllUKs() {
+            return Enumerable.Range(0, 10).Select(CardRewardUK)
+                .Concat(Enumerable.Range(0, 7).Select(ArtifactUK))
+                .Concat(new UK[] { RareCardReward1UK, RareCardReward2UK, BossArtifact1UK, BossArtifact2UK });
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Microsoft.Extensions.Logging;
 using System.Reflection.Emit;
 
 namespace CobaltCoreArchipelago
@@ -9,8 +8,7 @@ namespace CobaltCoreArchipelago
     {
         [HarmonyPatch("PlayerWon")]
         [HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> PlayerWonTranspile(IEnumerable<CodeInstruction> instructions) {
-            var instructionsArr = instructions.ToArray();
+        public static IEnumerable<CodeInstruction> PlayerWonTranspile(IEnumerable<CodeInstruction> instructions) {
             var aCardOfferingCtor = typeof(ACardOffering).GetConstructor(Array.Empty<Type>());
             foreach (var instruction in instructions)
             {

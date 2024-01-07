@@ -65,8 +65,6 @@ namespace CobaltCoreArchipelago
             if (numRareCardDraws >= 2) MenuItemIfUnredeemed(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2");
             if (numBossArtifacts >= 2) MenuItemIfUnredeemed(g, new Vec(0, 63), newWidth, false, ArchiUKs.BossArtifact2UK, "Boss Artifact 2");
             g.Pop();
-
-            // TODO add more stuff
         }
 
         public override bool TryCloseSubRoute(G g, Route r, object? arg)

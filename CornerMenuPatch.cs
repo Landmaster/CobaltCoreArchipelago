@@ -22,7 +22,14 @@ namespace CobaltCoreArchipelago
         {
             public void OnMouseDown(G g, Box b)
             {
-                g.state.routeOverride = new CCArchiRoute();
+                if (g.state.routeOverride is CCArchiRoute)
+                {
+                    g.state.routeOverride = null;
+                }
+                else
+                {
+                    g.state.routeOverride = new CCArchiRoute();
+                }
             }
         }
     }

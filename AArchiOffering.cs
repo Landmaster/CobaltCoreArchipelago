@@ -16,10 +16,8 @@ namespace CobaltCoreArchipelago
             if (BattleType == global::BattleType.Boss)
             {
                 theLocationId = ArchiUKs.UKToArchiLocation(
-                    CCArchiData.Instance.BossCount > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK
+                    CCArchiData.Instance.BossCount++ > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK
                 );
-
-                // TODO increment boss count at the right spot
             }
             else {
                 theLocationId = ArchiUKs.UKToArchiLocation(
@@ -35,28 +33,25 @@ namespace CobaltCoreArchipelago
         class ArchiRewardRoute : Route, OnMouseDown {
             public long locationId = -1;
 
-            [JsonIgnore]
-            private bool first = true;
-
             public void OnMouseDown(G g, Box b)
             {
-                // TODO add shit here
+                CCArchiData.Session!.Locations.CompleteLocationChecks(locationId);
+                g.CloseRoute(this);
             }
 
             public override void Render(G g)
             {
-                if (first) {
-                    first = false;
-                    if (locationId >= 0)
-                    {
-                        CCArchiData.Session!.Locations.CompleteLocationChecks(new long[] { locationId });
-                    }
-                }
-
                 SharedArt.DrawEngineering(g);
-                
+
                 Draw.Text("Archipelago Reward", 240, 44, font: DB.stapler, color: Colors.textMain, align: daisyowl.text.TAlign.Center);
-                Draw.Sprite((Spr?)CCArchiSprites.ArchiIconLarge!.Id, 240 - 128/2, 80);
+                Draw.Text(
+                    CCArchiData.Instance.LocationToItem[locationId] ?? locationId.ToString(),
+                    240, 70, color: Colors.textMain.gain(0.5), align: daisyowl.text.TAlign.Center
+                );
+                var rect = new Rect(240 - 128.0 / 2, 80, 128, 128);
+                g.Push(key: ArchiUKs.ArchiRewardButton, rect: rect, onMouseDown: this);
+                Draw.Sprite((Spr?)CCArchiSprites.ArchiIconLarge!.Id, rect.x, rect.y);
+                g.Pop();
                 // TODO add more stuff
             }
         }

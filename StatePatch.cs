@@ -1,6 +1,4 @@
 ﻿using HarmonyLib;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace CobaltCoreArchipelago
 {
@@ -11,11 +9,26 @@ namespace CobaltCoreArchipelago
         [HarmonyPostfix]
         public static void PopulateRunPostfix(State __instance)
         {
-            CCArchiData.Instance.CardDrawCount = 0;
+            CCArchiData.Instance = new();
 
             for (int i = 0; i < 10; ++i) {
                 CCArchiData.Instance.ArchiCardChoices.Add(CardReward.GetOffering(__instance, count: 3));
             }
+
+            for (int i = 0; i < 2; ++i)
+            {
+                CCArchiData.Instance.ArchiRareCardChoices.Add(CardReward.GetOffering(__instance, count: 3, battleType: BattleType.Boss));
+            }
+
+            CCArchiData.Session!.Locations.ScoutLocationsAsync(
+                ArchiUKs.AllUKs().Select(ArchiUKs.UKToArchiLocation).ToArray()
+            ).ContinueWith(packetTask => {
+                foreach (var entry in packetTask.Result.Locations) {
+                    var itemName = CCArchiData.Session!.Items.GetItemName(entry.Item);
+                    var itemPlayer = CCArchiData.Session!.Players.GetPlayerName(entry.Player);
+                    CCArchiData.Instance.LocationToItem[entry.Location] = $"{itemName} - {itemPlayer}";
+                }
+            });
         }
 
         [HarmonyPatch(nameof(State.Save))]

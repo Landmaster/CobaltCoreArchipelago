@@ -39,5 +39,11 @@ namespace CobaltCoreArchipelago
 
         [JsonProperty]
         public readonly List<List<Card>> ArchiCardChoices = new();
+
+        [JsonProperty]
+        public readonly List<List<Card>> ArchiRareCardChoices = new();
+
+        [JsonProperty]
+        public readonly Dictionary<long, string> LocationToItem = new();
     }
 }
