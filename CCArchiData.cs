@@ -32,10 +32,13 @@ namespace CobaltCoreArchipelago
         public int CardDrawCount { get; set; } = 0;
 
         [JsonProperty]
-        public int BossCount { get; set; } = 0;
+        public int RareCardDrawCount { get; set; } = 0;
 
         [JsonProperty]
         public int ArtifactCount { get; set; } = 0;
+
+        [JsonProperty]
+        public int BossArtifactCount { get; set; } = 0;
 
         [JsonProperty]
         public readonly List<List<Card>> ArchiCardChoices = new();

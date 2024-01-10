@@ -16,12 +16,13 @@ namespace CobaltCoreArchipelago
                 {
                     yield return new CodeInstruction(
                         OpCodes.Newobj,
-                        typeof(AArchiOffering).GetConstructor(Array.Empty<Type>())
+                        typeof(AArchiCardOffering).GetConstructor(Array.Empty<Type>())
                     );
                 }
+                /*
                 else if (instruction.StoresField(typeof(ACardOffering).GetField("battleType"))) {
-                    yield return new CodeInstruction(OpCodes.Stfld, typeof(AArchiOffering).GetField("BattleType"));
-                }
+                    yield return new CodeInstruction(OpCodes.Stfld, typeof(AArchiCardOffering).GetField("BattleType"));
+                }*/
                 else
                 {
                     yield return instruction;

@@ -1,27 +1,28 @@
 ﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace CobaltCoreArchipelago
 {
-    class AArchiOffering : CardAction
+    class AArchiCardOffering : ACardOffering
     {
-        public BattleType? BattleType;
-
         public override Route? BeginWithRoute(G g, State s, Combat c)
         {
-            CCArchiManifest.Instance!.Logger!.LogWarning($"{BattleType!}");
+            CCArchiManifest.Instance!.Logger!.LogWarning($"{battleType!}");
 
             long theLocationId;
 
-            if (BattleType == global::BattleType.Boss)
+            if (battleType == BattleType.Boss)
             {
                 theLocationId = ArchiUKs.UKToArchiLocation(
-                    CCArchiData.Instance.BossCount++ > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK
+                    CCArchiData.Instance.RareCardDrawCount++ > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK
                 );
             }
             else {
+                if (CCArchiData.Instance.CardDrawCount++ % 2 == 0) {
+                    return base.BeginWithRoute(g, s, c);
+                }
+
                 theLocationId = ArchiUKs.UKToArchiLocation(
-                    ArchiUKs.CardRewardUK(CCArchiData.Instance.CardDrawCount++)
+                    ArchiUKs.CardRewardUK((CCArchiData.Instance.CardDrawCount - 1) / 2)
                 );
             }
 
@@ -52,7 +53,6 @@ namespace CobaltCoreArchipelago
                 g.Push(key: ArchiUKs.ArchiRewardButton, rect: rect, onMouseDown: this);
                 Draw.Sprite((Spr?)CCArchiSprites.ArchiIconLarge!.Id, rect.x, rect.y);
                 g.Pop();
-                // TODO add more stuff
             }
         }
     }
