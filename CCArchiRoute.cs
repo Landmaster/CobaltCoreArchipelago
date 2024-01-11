@@ -90,6 +90,7 @@ namespace CobaltCoreArchipelago
             public void OnMouseDown(G g, Box b)
             {
                 ParentRoute!.SubRoute = new ArchiCardReward() {
+                    UkValue = ArchiUKs.CardRewardUK(Idx),
                     cards = CCArchiData.Instance.ArchiCardChoices[Idx]
                 };
             }
@@ -103,6 +104,7 @@ namespace CobaltCoreArchipelago
             {
                 ParentRoute!.SubRoute = new ArchiCardReward()
                 {
+                    UkValue = Idx > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK,
                     cards = CCArchiData.Instance.ArchiRareCardChoices[Idx]
                 };
             }
