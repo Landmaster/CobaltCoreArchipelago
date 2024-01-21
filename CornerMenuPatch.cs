@@ -2,9 +2,11 @@
 
 namespace CobaltCoreArchipelago
 {
-    [HarmonyPatch(typeof(CornerMenu), nameof(CornerMenu.Render))]
+    [HarmonyPatch(typeof(CornerMenu))]
     class CornerMenuPatch {
-        static void Postfix(G g, State s) {
+        [HarmonyPatch(nameof(CornerMenu.Render))]
+        [HarmonyPostfix]
+        static void RenderPostfix(G g, State s) {
             var rect = new Rect(1, 20, 15, 15);
             var box = g.Push(key: ArchiUKs.ArchiButton, rect: rect, onMouseDown: new MouseDownHandler());
             if (box.IsHover()) {

@@ -6,6 +6,7 @@ using CobaltCoreModding.Definitions.ModContactPoints;
 using CobaltCoreModding.Definitions.ModManifests;
 using HarmonyLib;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Reflection;
 
 namespace CobaltCoreArchipelago
@@ -33,8 +34,14 @@ namespace CobaltCoreArchipelago
             var cornersFieldVal = cornersField!.GetValue(null) as HashSet<UK>;
             cornersFieldVal!.Add(ArchiUKs.ArchiButton);
 
-            CCArchiData.Session = ArchipelagoSessionFactory.CreateSession("localhost:38281");
-            var loginResult = CCArchiData.Session.TryConnectAndLogin("Cobalt Core", "Crab", ItemsHandlingFlags.AllItems);
+            var config = JsonConvert.DeserializeObject<CCArchiConfig>(
+                File.ReadAllText(Path.Combine(ModRootFolder!.FullName, "CobaltCoreArchipelago.config.json"))
+            )!;
+
+            CCArchiData.Session = ArchipelagoSessionFactory.CreateSession(config.ArchipelagoUrl);
+            var loginResult = CCArchiData.Session.TryConnectAndLogin(
+                "Cobalt Core", config.ArchipelagoUsername, ItemsHandlingFlags.AllItems, password: config.ArchipelagoPassword
+            );
 
             if (!loginResult.Successful)
             {
@@ -57,13 +64,13 @@ namespace CobaltCoreArchipelago
                 throw new Exception("No root folder set!");
             }
 
-            var path = Path.Combine(ModRootFolder.FullName, Path.GetFileName("archi_icon_cobaltcore.png"));
+            var path = Path.Combine(ModRootFolder.FullName, "archi_icon_cobaltcore.png");
             CCArchiSprites.ArchiIcon = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIcon", new FileInfo(path));
             if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIcon)) {
                 throw new Exception("Cannot register sprite.");
             }
 
-            path = Path.Combine(ModRootFolder.FullName, Path.GetFileName("archi_icon_large_cobaltcore.png"));
+            path = Path.Combine(ModRootFolder.FullName, "archi_icon_large_cobaltcore.png");
             CCArchiSprites.ArchiIconLarge = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIconLarge", new FileInfo(path));
             if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIconLarge))
             {
