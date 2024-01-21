@@ -48,5 +48,8 @@ namespace CobaltCoreArchipelago
 
         [JsonProperty]
         public readonly Dictionary<long, string> LocationToItem = new();
+
+        [JsonProperty]
+        public readonly Rand ArchiArtifactOfferingRand = new();
     }
 }

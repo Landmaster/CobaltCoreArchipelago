@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Reflection.Emit;
 
 namespace CobaltCoreArchipelago
 {
@@ -49,6 +50,21 @@ namespace CobaltCoreArchipelago
         {
             var archiDataPath = Path.Combine(State.GetSlotPath(slot), "ArchiMWData.json");
             CCArchiData.Instance = Storage.LoadOrNew<CCArchiData>(archiDataPath);
+        }
+
+        [HarmonyPatch(nameof(State.SeedRand))]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> SeedRandTranspiler(IEnumerable<CodeInstruction> instructions) { 
+            foreach (var instruction in instructions)
+            {
+                yield return instruction;
+            }
+            yield return new CodeInstruction(OpCodes.Ldloc_0); // rand
+            yield return new CodeInstruction(OpCodes.Call, typeof(StatePatch).GetMethod(nameof(AddRands)));
+        }
+
+        public static void AddRands(Rand rand) {
+            CCArchiData.Instance.ArchiArtifactOfferingRand.seed = rand.Offshoot().seed;
         }
     }
 }

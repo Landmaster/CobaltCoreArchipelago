@@ -3,7 +3,7 @@
 namespace CobaltCoreArchipelago
 {
     [HarmonyPatch(typeof(CardReward))]
-    public class CardRewardPatch
+    class CardRewardPatch
     {
         [HarmonyPatch(nameof(CardReward.TakeCard))]
         [HarmonyPostfix]

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace CobaltCoreArchipelago
+﻿namespace CobaltCoreArchipelago
 {
     public class CCArchiRoute : Route
     {
@@ -54,7 +52,10 @@ namespace CobaltCoreArchipelago
             g.Push(rect: new Rect(240 - width / 2.0, 50));
             for (int i = 0; i < numArtifacts; ++i)
             {
-                MenuItemIfUnredeemed(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.ArtifactUK(i), "Artifact " + (i + 1));
+                MenuItemIfUnredeemed(g, new Vec(0, 0 + 21 * i), width, false, ArchiUKs.ArtifactUK(i), "Artifact " + (i + 1), new OnArtifactClick() { 
+                    Idx = i,
+                    ParentRoute = this
+                });
             }
             g.Pop();
 
@@ -106,6 +107,21 @@ namespace CobaltCoreArchipelago
                 {
                     UkValue = Idx > 0 ? ArchiUKs.RareCardReward2UK : ArchiUKs.RareCardReward1UK,
                     cards = CCArchiData.Instance.ArchiRareCardChoices[Idx]
+                };
+            }
+        }
+
+        private class OnArtifactClick : OnMouseDown {
+            public int Idx;
+            public CCArchiRoute? ParentRoute;
+
+            public void OnMouseDown(G g, Box b)
+            {
+                var rand = new Rand(CCArchiData.Instance.ArchiArtifactOfferingRand.seed);
+                ParentRoute!.SubRoute = new ArchiArtifactReward()
+                {
+                    UkValue = ArchiUKs.ArtifactUK(Idx),
+                    artifacts = ArtifactReward.GetOffering(g.state, 2, rngOverride: rand)
                 };
             }
         }
