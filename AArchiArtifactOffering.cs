@@ -15,7 +15,7 @@
                 }
             }
 
-            if (theLocationId < 0)
+            if (theLocationId < 0 && CCArchiData.Instance.ArtifactCount < CCArchiData.NumArtifacts)
             {
                 theLocationId = ArchiUKs.UKToArchiLocation(ArchiUKs.ArtifactUK(CCArchiData.Instance.ArtifactCount++));
             }

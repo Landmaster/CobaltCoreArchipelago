@@ -25,6 +25,10 @@ namespace CobaltCoreArchipelago
             };
         }
 
+        public const int NumCardRewards = 10;
+
+        public const int NumArtifacts = 7;
+
         [JsonProperty]
         public readonly HashSet<UK> RedeemedItemIds = new();
 

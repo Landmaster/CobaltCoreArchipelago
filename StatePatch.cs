@@ -12,7 +12,7 @@ namespace CobaltCoreArchipelago
         {
             CCArchiData.Instance = new();
 
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < CCArchiData.NumCardRewards; ++i) {
                 CCArchiData.Instance.ArchiCardChoices.Add(CardReward.GetOffering(__instance, count: 3));
             }
 

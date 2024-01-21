@@ -43,8 +43,8 @@
         }
 
         public static IEnumerable<UK> AllUKs() {
-            return Enumerable.Range(0, 10).Select(CardRewardUK)
-                .Concat(Enumerable.Range(0, 7).Select(ArtifactUK))
+            return Enumerable.Range(0, CCArchiData.NumCardRewards).Select(CardRewardUK)
+                .Concat(Enumerable.Range(0, CCArchiData.NumArtifacts).Select(ArtifactUK))
                 .Concat(new UK[] { RareCardReward1UK, RareCardReward2UK, BossArtifact1UK, BossArtifact2UK });
         }
     }

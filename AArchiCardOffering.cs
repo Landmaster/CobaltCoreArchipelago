@@ -17,12 +17,14 @@ namespace CobaltCoreArchipelago
                 );
             }
             else {
-                if (CCArchiData.Instance.CardDrawCount++ % 2 == 0) {
+                int cardRewardIndex = CCArchiData.Instance.CardDrawCount / 2;
+
+                if (CCArchiData.Instance.CardDrawCount++ % 2 == 0 || cardRewardIndex >= CCArchiData.NumCardRewards) {
                     return base.BeginWithRoute(g, s, c);
                 }
 
                 theLocationId = ArchiUKs.UKToArchiLocation(
-                    ArchiUKs.CardRewardUK((CCArchiData.Instance.CardDrawCount - 1) / 2)
+                    ArchiUKs.CardRewardUK(cardRewardIndex)
                 );
             }
 
