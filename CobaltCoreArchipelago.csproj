@@ -28,8 +28,14 @@
 	</ItemGroup>
 
 	<Target Name="CopyFiles" AfterTargets="AfterBuild">
-		<Copy SourceFiles="@(Sprites)" DestinationFolder="$(ProjectDir)$(OutDir)Sprites" />
-		<Copy SourceFiles="$(ProjectDir)CobaltCoreArchipelago.config.json" DestinationFiles="$(ProjectDir)$(OutDir)CobaltCoreArchipelago.config.json" />
+		<Copy SourceFiles="@(Sprites)" DestinationFolder="$(ProjectDir)$(OutDir)Sprites\%(RecursiveDir)" />
+		<Copy SourceFiles="$(ProjectDir)CobaltCoreArchipelago.config.json" DestinationFolder="$(ProjectDir)$(OutDir)" />
+		<Copy SourceFiles="$(ProjectDir)$(OutDir)CobaltCoreArchipelago.dll" DestinationFolder="$(ProjectDir)$(OutDir)CobaltCoreArchipelago\CobaltCoreArchipelago" />
+		<Copy SourceFiles="$(ProjectDir)$(OutDir)CobaltCoreArchipelago.config.json" DestinationFolder="$(ProjectDir)$(OutDir)CobaltCoreArchipelago\CobaltCoreArchipelago" />
+		<Copy SourceFiles="$(ProjectDir)$(OutDir)Archipelago.MultiClient.Net.dll" DestinationFolder="$(ProjectDir)$(OutDir)CobaltCoreArchipelago\CobaltCoreArchipelago" />
+		<Copy SourceFiles="$(ProjectDir)$(OutDir)Newtonsoft.Json.dll" DestinationFolder="$(ProjectDir)$(OutDir)CobaltCoreArchipelago\CobaltCoreArchipelago" />
+		<Copy SourceFiles="@(Sprites)" DestinationFolder="$(ProjectDir)$(OutDir)CobaltCoreArchipelago\CobaltCoreArchipelago\Sprites\%(RecursiveDir)" />
+		<ZipDirectory SourceDirectory="$(ProjectDir)$(OutDir)CobaltCoreArchipelago" DestinationFile="$(ProjectDir)$(OutDir)CobaltCoreArchipelago.zip" Overwrite="true" />
 	</Target>
 
 </Project>
