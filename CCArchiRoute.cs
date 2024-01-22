@@ -61,9 +61,13 @@
 
             g.Push(rect: new Rect(360 - width / 2.0, 50));
             var newWidth = 150;
-            if (numRareCardDraws >= 1) MenuItemIfUnredeemed(g, new Vec(0, 0), newWidth, false, ArchiUKs.RareCardReward1UK, "Rare Card Draw 1", new OnRareCardDrawClick() { Idx = 0 });
+            if (numRareCardDraws >= 1) MenuItemIfUnredeemed(g, new Vec(0, 0), newWidth, false, ArchiUKs.RareCardReward1UK, "Rare Card Draw 1", new OnRareCardDrawClick() {
+                Idx = 0, ParentRoute = this
+            });
             if (numBossArtifacts >= 1) MenuItemIfUnredeemed(g, new Vec(0, 21), newWidth, false, ArchiUKs.BossArtifact1UK, "Boss Artifact 1");
-            if (numRareCardDraws >= 2) MenuItemIfUnredeemed(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2", new OnRareCardDrawClick() { Idx = 1 });
+            if (numRareCardDraws >= 2) MenuItemIfUnredeemed(g, new Vec(0, 42), newWidth, false, ArchiUKs.RareCardReward2UK, "Rare Card Draw 2", new OnRareCardDrawClick() {
+                Idx = 1, ParentRoute = this
+            });
             if (numBossArtifacts >= 2) MenuItemIfUnredeemed(g, new Vec(0, 63), newWidth, false, ArchiUKs.BossArtifact2UK, "Boss Artifact 2");
             g.Pop();
         }

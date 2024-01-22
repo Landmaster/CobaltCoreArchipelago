@@ -23,9 +23,13 @@
 		</Reference>
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="copy $(ProjectDir)Sprites\* $(ProjectDir)$(OutDir)" />
-		<Exec Command="copy $(ProjectDir)CobaltCoreArchipelago.config.json $(ProjectDir)$(OutDir)" />
+	<ItemGroup>
+		<Sprites Include="$(ProjectDir)Sprites\**\*.*" />
+	</ItemGroup>
+
+	<Target Name="CopyFiles" AfterTargets="AfterBuild">
+		<Copy SourceFiles="@(Sprites)" DestinationFolder="$(ProjectDir)$(OutDir)Sprites" />
+		<Copy SourceFiles="$(ProjectDir)CobaltCoreArchipelago.config.json" DestinationFiles="$(ProjectDir)$(OutDir)CobaltCoreArchipelago.config.json" />
 	</Target>
 
 </Project>
