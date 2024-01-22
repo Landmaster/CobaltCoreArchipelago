@@ -55,5 +55,8 @@ namespace CobaltCoreArchipelago
 
         [JsonProperty]
         public readonly Rand ArchiArtifactOfferingRand = new();
+
+        [JsonProperty]
+        public readonly Rand ArchiBossArtifactOfferingRand = new();
     }
 }

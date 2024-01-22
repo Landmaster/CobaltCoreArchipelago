@@ -65,6 +65,7 @@ namespace CobaltCoreArchipelago
 
         public static void AddRands(Rand rand) {
             CCArchiData.Instance.ArchiArtifactOfferingRand.seed = rand.Offshoot().seed;
+            CCArchiData.Instance.ArchiBossArtifactOfferingRand.seed = rand.Offshoot().seed;
         }
     }
 }

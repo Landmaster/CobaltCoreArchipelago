@@ -125,7 +125,23 @@
                 ParentRoute!.SubRoute = new ArchiArtifactReward()
                 {
                     UkValue = ArchiUKs.ArtifactUK(Idx),
-                    artifacts = ArtifactReward.GetOffering(g.state, 2, rngOverride: rand)
+                    artifacts = ArtifactReward.GetOffering(g.state, g.state.GetDifficulty() >= 2 ? 2 : 3, rngOverride: rand)
+                };
+            }
+        }
+
+        private class OnBossArtifactClick : OnMouseDown
+        {
+            public int Idx;
+            public CCArchiRoute? ParentRoute;
+
+            public void OnMouseDown(G g, Box b)
+            {
+                var rand = new Rand(CCArchiData.Instance.ArchiBossArtifactOfferingRand.seed);
+                ParentRoute!.SubRoute = new ArchiArtifactReward()
+                {
+                    UkValue = Idx > 0 ? ArchiUKs.BossArtifact2UK : ArchiUKs.BossArtifact1UK,
+                    artifacts = ArtifactReward.GetOffering(g.state, 3, rngOverride: rand, limitPools: new ArtifactPool[] { ArtifactPool.Boss }.ToList())
                 };
             }
         }
