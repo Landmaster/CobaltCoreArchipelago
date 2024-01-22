@@ -6,5 +6,6 @@ namespace CobaltCoreArchipelago
     {
         public static ExternalSprite? ArchiIcon { get; set; }
         public static ExternalSprite? ArchiIconLarge { get; set; }
+        public static ExternalSprite? ArchiIconSelected { get; set; }
     }
 }

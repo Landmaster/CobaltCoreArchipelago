@@ -70,6 +70,13 @@ namespace CobaltCoreArchipelago
                 throw new Exception("Cannot register sprite.");
             }
 
+            path = Path.Combine(ModRootFolder.FullName, "archi_icon_selected_cobaltcore.png");
+            CCArchiSprites.ArchiIconSelected = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIconSelected", new FileInfo(path));
+            if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIconSelected))
+            {
+                throw new Exception("Cannot register sprite.");
+            }
+
             path = Path.Combine(ModRootFolder.FullName, "archi_icon_large_cobaltcore.png");
             CCArchiSprites.ArchiIconLarge = new ExternalSprite("Landmaster.CobaltCoreArchipelago.ArchiIconLarge", new FileInfo(path));
             if (!artRegistry.RegisterArt(CCArchiSprites.ArchiIconLarge))
