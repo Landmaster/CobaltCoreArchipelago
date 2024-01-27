@@ -8,18 +8,9 @@ namespace CobaltCoreArchipelago
     {
         [HarmonyPatch(nameof(State.PopulateRun))]
         [HarmonyPostfix]
-        public static void PopulateRunPostfix(State __instance)
+        public static void PopulateRunPostfix()
         {
-            CCArchiData.Instance = new();
-
-            for (int i = 0; i < CCArchiData.NumCardRewards; ++i) {
-                CCArchiData.Instance.ArchiCardChoices.Add(CardReward.GetOffering(__instance, count: 3));
-            }
-
-            for (int i = 0; i < 2; ++i)
-            {
-                CCArchiData.Instance.ArchiRareCardChoices.Add(CardReward.GetOffering(__instance, count: 3, battleType: BattleType.Boss));
-            }
+            //CCArchiData.Instance = new();
 
             CCArchiData.Session!.Locations.ScoutLocationsAsync(
                 ArchiUKs.AllUKs().Select(ArchiUKs.UKToArchiLocation).ToArray()
@@ -59,13 +50,30 @@ namespace CobaltCoreArchipelago
             {
                 yield return instruction;
             }
+            yield return new CodeInstruction(OpCodes.Ldarg_0); // state
             yield return new CodeInstruction(OpCodes.Ldloc_0); // rand
             yield return new CodeInstruction(OpCodes.Call, typeof(StatePatch).GetMethod(nameof(AddRands)));
         }
 
-        public static void AddRands(Rand rand) {
+        public static void AddRands(State state, Rand rand) {
+            CCArchiData.Instance = new();
+
             CCArchiData.Instance.ArchiArtifactOfferingRand.seed = rand.Offshoot().seed;
             CCArchiData.Instance.ArchiBossArtifactOfferingRand.seed = rand.Offshoot().seed;
+            var cardOfferingRand = state.rngCardOfferings;
+            state.rngCardOfferings = rand.Offshoot();
+
+            for (int i = 0; i < CCArchiData.NumCardRewards; ++i)
+            {
+                CCArchiData.Instance.ArchiCardChoices.Add(CardReward.GetOffering(state, count: 3));
+            }
+
+            for (int i = 0; i < 2; ++i)
+            {
+                CCArchiData.Instance.ArchiRareCardChoices.Add(CardReward.GetOffering(state, count: 3, battleType: BattleType.Boss));
+            }
+
+            state.rngCardOfferings = cardOfferingRand;
         }
     }
 }

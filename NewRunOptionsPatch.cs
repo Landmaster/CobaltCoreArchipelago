@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Microsoft.Extensions.Logging;
 
 namespace CobaltCoreArchipelago
 {
@@ -7,7 +8,7 @@ namespace CobaltCoreArchipelago
     {
         [HarmonyPatch(nameof(NewRunOptions.Render))]
         [HarmonyPostfix]
-        static void OnEnterPostfix(G g) {
+        static void RenderPostfix(G g) {
             var slotData = CCArchiData.SlotData!;
 
             g.state.PopulateRun(
